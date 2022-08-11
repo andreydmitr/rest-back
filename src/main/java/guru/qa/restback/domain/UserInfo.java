@@ -9,6 +9,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class UserInfo {
     @Schema(description = "USER ID")
     @NonNull Long userId;
