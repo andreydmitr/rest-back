@@ -8,65 +8,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.Date;
-import java.util.List;
+import static guru.qa.restback.data.UserData.getSalaryInfoById;
+import static guru.qa.restback.data.UserData.getUserInfoById;
 
 
 @RestController
 public class SalaryController {
 
 
-    private List<UserInfo> userInfo = List.of(
-            UserInfo.builder().userId(1L).name("Andrei").serName("Ivanov").birthDay(new Date()).build(),
-            UserInfo.builder().userId(2L).name("Sergei").serName("Sinicin").birthDay(new Date()).build(),
-            UserInfo.builder().userId(4L).name("Ura").serName("Petrov").birthDay(new Date()).build()
-    );
 
-    private List<SalaryInfo> salaryInfo = List.of(
-            SalaryInfo.builder().userId(1L).salaryUsd(1000D).build(),
-            SalaryInfo.builder().userId(2L).salaryUsd(2000D).build(),
-            SalaryInfo.builder().userId(3L).salaryUsd(3000D).build()
-    );
 
-    public UserInfo getUserInfoById(Long userId) {
-        // search user by id
-        UserInfo result = userInfo
-                .stream()
-                .filter(e -> e.getUserId().equals(userId))
-                .findAny()
-                .orElse(null);
-
-        if (result == null) {
-            result = new UserInfo();
-            result.setReturnInfo(ReturnInfo.builder()
-                    .text("User has not found")
-                    .code(ReturnInfo.codes.ErrorNotFound)
-                    .build());
-        } else {
-            result.setReturnInfo(ReturnInfo.builder().build());
-        }
-        return result;
-    }
-
-    public SalaryInfo getSalaryInfoById(Long userId) {
-        // search user by id
-        SalaryInfo result = salaryInfo
-                .stream()
-                .filter(e -> e.getUserId().equals(userId))
-                .findAny()
-                .orElse(null);
-
-        if (result == null) {
-            result= new SalaryInfo();
-            result.setReturnInfo(ReturnInfo.builder()
-                    .text("Salary for user has not found")
-                    .code(ReturnInfo.codes.ErrorNotFound)
-                    .build());
-        } else {
-            result.setReturnInfo(ReturnInfo.builder().build());
-        }
-        return result;
-    }
 
     @GetMapping("user/getSalary")
     @Operation(summary = "Show salary by user id")
